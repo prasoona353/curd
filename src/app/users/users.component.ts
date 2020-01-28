@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ApiserviceService } from "../apiservice.service";
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatDialog } from '@angular/material';
+import { CreateUserComponent } from '../create-user/create-user.component';
 
 export interface PeriodicElement {
   name: string;
@@ -30,10 +31,21 @@ export class UsersComponent implements OnInit {
   displayedColumns: string[] = ["position", "name", "username", "email", "action"];
   dataSource = new MatTableDataSource<any>([]);
   usersList: any[]
-  constructor(private apiService: ApiserviceService) {}
+  constructor(private apiService: ApiserviceService,
+    public dialog: MatDialog) {}
 
   ngOnInit() {
     this.getUsersList()
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CreateUserComponent, {
+      width: '250px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
   getUsersList() {
     this.apiService.getApi("users").subscribe((data: any) => {

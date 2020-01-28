@@ -9,13 +9,14 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { UsersComponent } from './users/users.component';
 import { MaterialModule } from './angular.material.module';
 import { HttpClientModule } from '@angular/common/http';
+import { CreateUserComponent } from './create-user/create-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     UsersComponent,
-    
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule
   ],
   providers: [],
+  entryComponents: [CreateUserComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
