@@ -10,10 +10,10 @@ import { throwError } from 'rxjs';
 export class ApiserviceService {
   Url = environment.apiDomain;
   constructor(private http: HttpClient) {
-    environment;
+    // environment;
   }
 
-  get(params: any) {
+  getApi(params: any) {
     return this.http.get(`${this.Url}${params}`).pipe(map((res) => res), catchError(error => {
       return throwError(error);
     }));
