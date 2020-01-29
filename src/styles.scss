@@ -1,18 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-.router-link-active{
-    // border: dotted;
-    // border-color: #415AB5;
-    background-color:  #415AB5;
-    color:"primary"
-    // color: white;
+.router-link-active {
+  // border: dotted;
+  // border-color: #415AB5;
+  background-color: #415ab5;
+  color: "primary";
+  // color: white;
 }
-.float-right{
-    float: right;
+.float-right {
+  float: right;
 }
-.padding{
-    padding: 1rem 1rem 1rem 1rem;
-  }
+.padding {
+  padding: 1rem 1rem 1rem 1rem;
+}
+.mt-2 {
+  margin-top: 0.5rem;
+}

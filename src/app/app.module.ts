@@ -10,6 +10,7 @@ import { UsersComponent } from './users/users.component';
 import { MaterialModule } from './angular.material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CreateUserComponent } from './create-user/create-user.component';
     BrowserAnimationsModule,
     LayoutModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule
   ],
   providers: [],
   entryComponents: [CreateUserComponent],

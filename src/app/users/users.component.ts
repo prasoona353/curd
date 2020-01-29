@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { ApiserviceService } from "../apiservice.service";
-import { MatTableDataSource, MatDialog } from '@angular/material';
-import { CreateUserComponent } from '../create-user/create-user.component';
+import { ApiserviceService } from "../services/apiservice.service";
+import { MatTableDataSource, MatDialog, MatSnackBar } from "@angular/material";
+import { CreateUserComponent } from "../create-user/create-user.component";
 
 export interface PeriodicElement {
   name: string;
@@ -28,28 +28,54 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ["./users.component.scss"]
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[] = ["position", "name", "username", "email", "action"];
+  displayedColumns: string[] = [
+    "position",
+    "name",
+    "username",
+    "email",
+    "action"
+  ];
   dataSource = new MatTableDataSource<any>([]);
-  usersList: any[]
-  constructor(private apiService: ApiserviceService,
-    public dialog: MatDialog) {}
+  usersList: any[];
+  constructor(
+    private apiService: ApiserviceService,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
-    this.getUsersList()
+    this.getUsersList();
   }
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateUserComponent, {
-      width: '250px',
+      width: "250px",
       data: {}
     });
-
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      console.log("The dialog was closed");
+      if (result) {
+        this.createUser(result);
+      }
+    });
+  }
+  createUser(result) {
+    this.apiService.post("users", {...result}).subscribe((data: any) => {
+      try {
+        const createdUserData = this.dataSource.data
+        createdUserData.push(data);
+        this.dataSource.data = createdUserData;
+        this._snackBar.open('User Created Succesfully', '', {
+          duration: 2000,
+        });
+      } catch (e) {
+        console.log(e, "error");
+      }
     });
   }
   getUsersList() {
     this.apiService.getApi("users").subscribe((data: any) => {
       try {
+        console.log(data)
         this.dataSource.data = data;
         console.log(data);
       } catch (e) {
