@@ -1,27 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ApiserviceService } from "../services/apiservice.service";
 import { MatTableDataSource, MatDialog, MatSnackBar } from "@angular/material";
 import { CreateUserComponent } from "../create-user/create-user.component";
+import { MatPaginator } from "@angular/material/paginator";
+import { StorageService } from "../services/storageservice";
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: "Hydrogen", weight: 1.0079, symbol: "H" },
-  { position: 2, name: "Helium", weight: 4.0026, symbol: "He" },
-  { position: 3, name: "Lithium", weight: 6.941, symbol: "Li" },
-  { position: 4, name: "Beryllium", weight: 9.0122, symbol: "Be" },
-  { position: 5, name: "Boron", weight: 10.811, symbol: "B" },
-  { position: 6, name: "Carbon", weight: 12.0107, symbol: "C" },
-  { position: 7, name: "Nitrogen", weight: 14.0067, symbol: "N" },
-  { position: 8, name: "Oxygen", weight: 15.9994, symbol: "O" },
-  { position: 9, name: "Fluorine", weight: 18.9984, symbol: "F" },
-  { position: 10, name: "Neon", weight: 20.1797, symbol: "Ne" }
-];
 @Component({
   selector: "app-users",
   templateUrl: "./users.component.html",
@@ -40,33 +23,53 @@ export class UsersComponent implements OnInit {
   constructor(
     private apiService: ApiserviceService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private storageService: StorageService
   ) {}
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
-    this.getUsersList();
+    console.log(this.storageService.select("users"));
+    if (this.storageService.select("users")) {
+      this.dataSource.data = this.storageService.select("users");
+      this.dataSource.paginator = this.paginator;
+    } else {
+      this.getUsersList();
+    }
   }
-  openDialog(): void {
+  openDialog(data?): void {
     const dialogRef = this.dialog.open(CreateUserComponent, {
       width: "250px",
-      data: {}
+      disableClose: true,
+      data: { ...data }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log("The dialog was closed");
       if (result) {
-        this.createUser(result);
+        this.actionOnUser(result, data.id);
       }
     });
   }
-  createUser(result) {
-    this.apiService.post("users", {...result}).subscribe((data: any) => {
+  actionOnUser(result, id?) {
+    const url = id ? `users/${id}` : "users";
+    const method = id ? "put" : "post";
+    this.apiService[method](url, { ...result }).subscribe((data: any) => {
       try {
-        const createdUserData = this.dataSource.data
-        createdUserData.push(data);
+        const createdUserData = this.dataSource.data;
+        if (id) {
+          createdUserData[id - 1] = data;
+        } else {
+          createdUserData.push(data);
+        }
         this.dataSource.data = createdUserData;
-        this._snackBar.open('User Created Succesfully', '', {
-          duration: 2000,
-        });
+        this.dataSource.paginator = this.paginator;
+        this._snackBar.open(
+          `User ${id ? "Updated" : "Created"} successfully`,
+          "",
+          {
+            duration: 2000
+          }
+        );
+        this.storageService.setVal("users", this.dataSource.data);
       } catch (e) {
         console.log(e, "error");
       }
@@ -75,8 +78,9 @@ export class UsersComponent implements OnInit {
   getUsersList() {
     this.apiService.getApi("users").subscribe((data: any) => {
       try {
-        console.log(data)
+        console.log(data);
         this.dataSource.data = data;
+        this.dataSource.paginator = this.paginator;
         console.log(data);
       } catch (e) {
         console.log(e, "error");

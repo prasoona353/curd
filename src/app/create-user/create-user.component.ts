@@ -21,7 +21,14 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.data)
+    if(this.data){
+      this.userForm.get('name').setValue(this.data.name);
+      this.userForm.get('username').setValue(this.data.username);
+      this.userForm.get('email').setValue(this.data.email);
+    }
+  }
 
   createUser() {
     if(this.validationService.validateForm(this.userForm)){ return; }
