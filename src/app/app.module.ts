@@ -9,15 +9,19 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { UsersComponent } from './users/users.component';
 import { MaterialModule } from './angular.material.module';
 import { HttpClientModule } from '@angular/common/http';
-import { CreateUserComponent } from './create-user/create-user.component';
+import { CreateUserComponent } from './modals/create-user/create-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommentsComponent } from './comments/comments.component';
+import { CreateCommentComponent } from './modals/create-comment/create-comment.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     UsersComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    CommentsComponent,
+    CreateCommentComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   providers: [],
-  entryComponents: [CreateUserComponent],
+  entryComponents: [CreateUserComponent,CreateCommentComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

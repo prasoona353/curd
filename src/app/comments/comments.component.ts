@@ -1,21 +1,20 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ApiserviceService } from "../services/apiservice.service";
-import { MatTableDataSource, MatDialog, MatSnackBar } from "@angular/material";
-import { CreateUserComponent } from "../modals/create-user/create-user.component";
-import { MatPaginator } from "@angular/material/paginator";
-import { StorageService } from "../services/storageservice";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatDialog, MatSnackBar, MatPaginator } from '@angular/material';
+import { ApiserviceService } from '../services/apiservice.service';
+import { StorageService } from '../services/storageservice';
+import { CreateCommentComponent } from '../modals/create-comment/create-comment.component';
 
 @Component({
-  selector: "app-users",
-  templateUrl: "./users.component.html",
-  styleUrls: ["./users.component.scss"]
+  selector: 'app-comments',
+  templateUrl: './comments.component.html',
+  styleUrls: ['./comments.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class CommentsComponent implements OnInit {
   displayedColumns: string[] = [
     "position",
     "name",
-    "username",
     "email",
+    "body",
     "action"
   ];
   dataSource = new MatTableDataSource<any>([]);
@@ -28,46 +27,46 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
-    console.log(this.storageService.select("users"));
-    if (this.storageService.select("users")) {
-      this.dataSource.data = this.storageService.select("users");
+    console.log(this.storageService.select("comments"));
+    if (this.storageService.select("comments")) {
+      this.dataSource.data = this.storageService.select("comments");
       this.dataSource.paginator = this.paginator;
     } else {
-      this.getUsersList();
+      this.getCommentsList();
     }
   }
-  deleteUser(element) {
-    this.apiService.delete(`users/${element.id}`).subscribe((data: any) => {
+  deleteComment(element) {
+    this.apiService.delete(`comments/${element.id}`).subscribe((data: any) => {
       try {
         let userData = this.dataSource.data;
         userData = userData.filter((each:any) => each !== element);
         this.dataSource.data  = userData;
         this._snackBar.open(
-          `User Deleted successfully`,
+          `Comment Deleted successfully`,
           "",
           {
             duration: 2000
           }
         );
-        this.storageService.setVal("users", this.dataSource.data);
+        this.storageService.setVal("comments", this.dataSource.data);
       } catch (e) {
         console.log(e, "error");
       }
     });
   }
   openDialog(data?): void {
-    const dialogRef = this.dialog.open(CreateUserComponent, {
+    const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: "250px",
       disableClose: true,
       data: { ...data }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.actionOnUser(result, data.id);
+        this.actionOnComment(result, data.id);
       }
     });
   }
-  actionOnUser(result, id?) {
+  actionOnComment(result, id?) {
     const url = id ? `users/${id}` : "users";
     const method = id ? "put" : "post";
     this.apiService[method](url, { ...result }).subscribe((data: any) => {
@@ -81,20 +80,20 @@ export class UsersComponent implements OnInit {
         this.dataSource.data = createdUserData;
         this.dataSource.paginator = this.paginator;
         this._snackBar.open(
-          `User ${id ? "Updated" : "Created"} successfully`,
+          `Comment ${id ? "Updated" : "Created"} successfully`,
           "",
           {
             duration: 2000
           }
         );
-        this.storageService.setVal("users", this.dataSource.data);
+        this.storageService.setVal("comments", this.dataSource.data);
       } catch (e) {
         console.log(e, "error");
       }
     });
   }
-  getUsersList() {
-    this.apiService.getApi("users").subscribe((data: any) => {
+  getCommentsList() {
+    this.apiService.getApi("comments").subscribe((data: any) => {
       try {
         console.log(data);
         this.dataSource.data = data;
@@ -105,4 +104,5 @@ export class UsersComponent implements OnInit {
       }
     });
   }
+
 }

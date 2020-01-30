@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NavComponent } from './nav/nav.component';
 import { UsersComponent } from './users/users.component';
+import { CommentsComponent } from './comments/comments.component';
 
 
 const routes: Routes = [
@@ -12,6 +13,10 @@ const routes: Routes = [
       {
         path : '',
         component: UsersComponent
+      },
+      {
+        path : 'comments',
+        component: CommentsComponent
       }
     ]
   }
