@@ -8,11 +8,29 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-.example-full-width{
-  width: 100%
+.example-full-width {
+  width: 100%;
 }
-.ml-2{
+.ml-2 {
   margin-left: 0.5rem;
+}
+table {
+  width: 100%;
+  .mat-header-cell,
+  .mat-cell {
+    padding: 5px;
+    &:first-of-type {
+      padding-left: 24px;
+    }
+    &:last-of-type {
+      width: 8%;
+      padding-right: 24px;
+    }
+  }
+}
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
 }
 // .router-link-active {
 //   // border: dotted;
@@ -24,7 +42,7 @@ body {
 .float-right {
   float: right;
 }
-.cursor-pointer{
+.cursor-pointer {
   cursor: pointer;
 }
 .padding {
@@ -33,4 +51,3 @@ body {
 .mt-2 {
   margin-top: 0.5rem;
 }
-
