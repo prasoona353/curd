@@ -12,7 +12,6 @@ import { StorageService } from "../services/storageservice";
 })
 export class UsersComponent implements OnInit {
   displayedColumns: string[] = [
-    "position",
     "name",
     "username",
     "email",

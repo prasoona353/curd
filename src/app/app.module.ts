@@ -10,9 +10,11 @@ import { UsersComponent } from './users/users.component';
 import { MaterialModule } from './angular.material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateUserComponent } from './modals/create-user/create-user.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommentsComponent } from './comments/comments.component';
 import { CreateCommentComponent } from './modals/create-comment/create-comment.component';
+import { TodoComponent } from './todo/todo.component';
+import { CreateTodoComponent } from './modals/create-todo/create-todo.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { CreateCommentComponent } from './modals/create-comment/create-comment.c
     UsersComponent,
     CreateUserComponent,
     CommentsComponent,
-    CreateCommentComponent
+    CreateCommentComponent,
+    TodoComponent,
+    CreateTodoComponent
   ],
   imports: [
     BrowserModule,
@@ -30,10 +34,12 @@ import { CreateCommentComponent } from './modals/create-comment/create-comment.c
     LayoutModule,
     HttpClientModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
-  entryComponents: [CreateUserComponent,CreateCommentComponent],
+  entryComponents: [CreateUserComponent,CreateCommentComponent,
+    CreateTodoComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

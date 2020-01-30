@@ -8,7 +8,12 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
+.example-full-width{
+  width: 100%
+}
+.ml-2{
+  margin-left: 0.5rem;
+}
 // .router-link-active {
 //   // border: dotted;
 //   // border-color: #415AB5;
@@ -28,6 +33,4 @@ body {
 .mt-2 {
   margin-top: 0.5rem;
 }
-.ml-2{
-  margin-left: 0.5rem;
-}
+

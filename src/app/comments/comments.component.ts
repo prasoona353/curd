@@ -11,7 +11,6 @@ import { CreateCommentComponent } from '../modals/create-comment/create-comment.
 })
 export class CommentsComponent implements OnInit {
   displayedColumns: string[] = [
-    "position",
     "name",
     "email",
     "body",

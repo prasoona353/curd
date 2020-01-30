@@ -1,0 +1,17 @@
+<section>
+        <h1>Todo Info</h1>
+        <form class="example-form" [formGroup]="todoForm">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Name" formControlName="title">
+                <mat-error *ngIf="this.todoForm.get('title').hasError('required')">
+                    You must enter a value</mat-error>
+            </mat-form-field>
+        
+           <div  class="mt-2">
+            <button mat-raised-button color="primary" (click)="createTodo()">Save</button>
+            <button class="ml-2" mat-raised-button color="primary" (click)="dialogRef.close()">Close</button>
+           </div>
+            
+            
+        </form>
+    </section>
