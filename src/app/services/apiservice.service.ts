@@ -28,4 +28,9 @@ export class ApiserviceService {
       return throwError(error);
     }));
   }
+  delete(params: any, data?: any) {
+    return this.http.delete(`${this.Url}${params}`, data).pipe(map((res) => res), catchError(error => {
+      return throwError(error);
+    }));
+  }
 }

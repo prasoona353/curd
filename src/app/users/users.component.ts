@@ -37,6 +37,25 @@ export class UsersComponent implements OnInit {
       this.getUsersList();
     }
   }
+  deleteUser(element) {
+    this.apiService.delete(`users/${element.id}`).subscribe((data: any) => {
+      try {
+        let userData = this.dataSource.data;
+        userData = userData.filter((each:any) => each !== element);
+        this.dataSource.data  = userData;
+        this._snackBar.open(
+          `User Deleted successfully`,
+          "",
+          {
+            duration: 2000
+          }
+        );
+        this.storageService.setVal("users", this.dataSource.data);
+      } catch (e) {
+        console.log(e, "error");
+      }
+    });
+  }
   openDialog(data?): void {
     const dialogRef = this.dialog.open(CreateUserComponent, {
       width: "250px",
