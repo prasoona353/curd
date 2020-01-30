@@ -63,7 +63,7 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.actionOnUser(result, data.id);
+        this.actionOnUser(result, data ?data.id : '');
       }
     });
   }
@@ -96,10 +96,8 @@ export class UsersComponent implements OnInit {
   getUsersList() {
     this.apiService.getApi("users").subscribe((data: any) => {
       try {
-        console.log(data);
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
-        console.log(data);
       } catch (e) {
         console.log(e, "error");
       }

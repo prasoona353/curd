@@ -1,6 +1,6 @@
 <section>
     <div class="float-right padding">
-      <button mat-raised-button color="primary" (click)="openDialog()">Create User</button>
+      <button mat-raised-button color="primary" (click)="openDialog()">Create Comments</button>
       <!-- <button mat-raised-button color="primary">Primary</button> -->
     </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -8,13 +8,11 @@
       <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
   
-      <!-- Position Column -->
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef> No. </th>
         <td mat-cell *matCellDef="let element"> {{element.id}} </td>
       </ng-container>
   
-      <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -32,7 +30,7 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Action </th>
         <td mat-cell *matCellDef="let element;let i = index">
-          <i class="material-icons cursor-pointer"  (click)="openDialog(element)">
+          <i class="material-icons cursor-pointer"  (click)="openDialog(element, i)">
             edit
           </i>
           <i class="material-icons cursor-pointer" (click)="deleteComment(element)">
@@ -44,6 +42,6 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
   
   </section>

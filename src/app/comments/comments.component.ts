@@ -19,6 +19,7 @@ export class CommentsComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource<any>([]);
   constructor(
+    
     private apiService: ApiserviceService,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
@@ -34,6 +35,7 @@ export class CommentsComponent implements OnInit {
     } else {
       this.getCommentsList();
     }
+
   }
   deleteComment(element) {
     this.apiService.delete(`comments/${element.id}`).subscribe((data: any) => {
@@ -54,33 +56,35 @@ export class CommentsComponent implements OnInit {
       }
     });
   }
-  openDialog(data?): void {
+  openDialog(data?, index?): void {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
-      width: "250px",
+      width: "500px",
       disableClose: true,
       data: { ...data }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.actionOnComment(result, data.id);
+        this.actionOnComment(result, index);
       }
     });
   }
-  actionOnComment(result, id?) {
-    const url = id ? `users/${id}` : "users";
-    const method = id ? "put" : "post";
+  actionOnComment(result, index?) {
+    console.log(result, index, 'qqqqqqqq')
+
+    const url = result.id ? `comments/${result.id}` : "comments";
+    const method = result.id ? "put" : "post";
     this.apiService[method](url, { ...result }).subscribe((data: any) => {
       try {
-        const createdUserData = this.dataSource.data;
-        if (id) {
-          createdUserData[id - 1] = data;
+        const createdCommentData = this.dataSource.data;
+        if (result.id) {
+          createdCommentData[index] = data;
         } else {
-          createdUserData.push(data);
+          createdCommentData.unshift(data);
         }
-        this.dataSource.data = createdUserData;
+        this.dataSource.data = createdCommentData;
         this.dataSource.paginator = this.paginator;
         this._snackBar.open(
-          `Comment ${id ? "Updated" : "Created"} successfully`,
+          `Comment ${result.id ? "Updated" : "Created"} successfully`,
           "",
           {
             duration: 2000
@@ -96,7 +100,8 @@ export class CommentsComponent implements OnInit {
     this.apiService.getApi("comments").subscribe((data: any) => {
       try {
         console.log(data);
-        this.dataSource.data = data;
+        
+        this.dataSource.data = data.reverse();
         this.dataSource.paginator = this.paginator;
         console.log(data);
       } catch (e) {
